@@ -1,0 +1,138 @@
+<!doctype html>
+<html ng-app="playground">
+
+<head>
+    <title>エビ遊び場 (Ebiten Playground)</title>
+    <link rel="stylesheet" type="text/css" href="playground.css">
+    <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
+    <script src="playground.js"></script>
+</head>
+
+<body ng-controller="PlaygroundCtrl">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+                <a class="navbar-brand" href="#">エビ遊び場</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <form class="navbar-form navbar-left">
+                    <button class="btn btn-default" ng-click="run(false)">Run</button>
+                    <button class="btn btn-default" ng-click="format()">Format</button>
+                    <label title="Rewrite imports on Format">
+          <input ng-model="imports" type="checkbox" />Imports
+        </label>
+                    <button class="btn btn-default" ng-click="share()">Share</button>
+                    <input type="text" class="show-share-url-{{showShareUrl}}" id="share-url" value="{{shareUrl}}" onfocus="select()" />
+                </form>
+                <!-- </div> -->
+                <!--
+      <ul class="nav navbar-nav">
+        <li><a href="#" ng-click="run(false)">Run</a></li>
+        <li><a href="#" ng-click="format()">Format</a></li>
+        <li>
+          <p class="navbar-text">Imports <input ng-model="imports" type="checkbox" /></p>
+        </li>
+        -->
+                <!-- 
+          <input type="button" value="Share" ng-click="share()" />
+        <input type="text" class="show-share-url-{{showShareUrl}}" id="share-url" value="{{shareUrl}}" onfocus="select()" />
+        -->
+                <!--
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+        -->
+                <!-- </ul> -->
+                <!--
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <p class="navbar-text">Ebiten Playground</p>
+                    </li>
+                    <!-- 
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Ebiten</a></li>
+            <li><a href="#">GopherJS</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">CloudInterfaces</a></li>
+          </ul>
+        </li>
+        -->
+                </ul>
+
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <div class="container-fluid">
+        <nav></nav>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Code</h3>
+                    </div>
+                    <div class="panel-body" id="input">
+                        <textarea ng-model="code" id="code" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false" class="form-control" rows="24"></textarea>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Output</h3>
+                    </div>
+                    <div class="panel-body" id="output">
+                        <pre><span ng-repeat="line in output" class="{{line.type}}">{{line.content}}&nbsp;</span></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Graphics</h3>
+                    </div>
+                    <div class="panel-body" id="gl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

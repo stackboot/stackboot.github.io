@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Source+Code+Pro');
+
+body {
+	font-family: 'Montserrat', sans-serif;
+}
+
+.output {
+		font-family: 'Source Code Pro', monospace;
+}
+
+pre {
+		font-family: 'Source Code Pro', monospace;
+}
+
+#input textarea {
+		font-family: 'Source Code Pro', monospace;
+}
+
+#share-url.show-share-url-false {
+	display: none;
+}
